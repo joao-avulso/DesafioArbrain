@@ -45,9 +45,9 @@
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label_tipoValor = new System.Windows.Forms.Label();
             this.numericUpDown_valor = new System.Windows.Forms.NumericUpDown();
+            this.rjToggleButton_ativo = new RJCodeAdvance.RJControls.RJToggleButton();
             this.panel_campos = new System.Windows.Forms.Panel();
             this.button_excluir = new System.Windows.Forms.Button();
-            this.rjToggleButton_ativo = new RJCodeAdvance.RJControls.RJToggleButton();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numericUpDown_valor)).BeginInit();
@@ -149,10 +149,10 @@
             this.comboBox_periodo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBox_periodo.Font = new System.Drawing.Font("Montserrat", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox_periodo.FormattingEnabled = true;
-            this.comboBox_periodo.Location = new System.Drawing.Point(117, 172);
+            this.comboBox_periodo.Location = new System.Drawing.Point(117, 173);
             this.comboBox_periodo.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.comboBox_periodo.Name = "comboBox_periodo";
-            this.comboBox_periodo.Size = new System.Drawing.Size(110, 26);
+            this.comboBox_periodo.Size = new System.Drawing.Size(110, 23);
             this.comboBox_periodo.TabIndex = 20;
             // 
             // comboBox_tipo
@@ -162,10 +162,10 @@
             this.comboBox_tipo.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBox_tipo.Font = new System.Drawing.Font("Montserrat", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox_tipo.FormattingEnabled = true;
-            this.comboBox_tipo.Location = new System.Drawing.Point(117, 52);
+            this.comboBox_tipo.Location = new System.Drawing.Point(117, 53);
             this.comboBox_tipo.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.comboBox_tipo.Name = "comboBox_tipo";
-            this.comboBox_tipo.Size = new System.Drawing.Size(47, 26);
+            this.comboBox_tipo.Size = new System.Drawing.Size(47, 23);
             this.comboBox_tipo.TabIndex = 1;
             this.comboBox_tipo.SelectionChangeCommitted += new System.EventHandler(this.ComboBox_tipo_SelectedIndexChanged);
             // 
@@ -176,10 +176,10 @@
             this.comboBox_produto.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBox_produto.Font = new System.Drawing.Font("Montserrat", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox_produto.FormattingEnabled = true;
-            this.comboBox_produto.Location = new System.Drawing.Point(117, 92);
+            this.comboBox_produto.Location = new System.Drawing.Point(117, 93);
             this.comboBox_produto.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.comboBox_produto.Name = "comboBox_produto";
-            this.comboBox_produto.Size = new System.Drawing.Size(398, 26);
+            this.comboBox_produto.Size = new System.Drawing.Size(398, 23);
             this.comboBox_produto.TabIndex = 2;
             // 
             // label2
@@ -259,10 +259,10 @@
             this.comboBox_vendedor.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.comboBox_vendedor.Font = new System.Drawing.Font("Montserrat", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.comboBox_vendedor.FormattingEnabled = true;
-            this.comboBox_vendedor.Location = new System.Drawing.Point(117, 12);
+            this.comboBox_vendedor.Location = new System.Drawing.Point(117, 13);
             this.comboBox_vendedor.Margin = new System.Windows.Forms.Padding(0, 3, 0, 3);
             this.comboBox_vendedor.Name = "comboBox_vendedor";
-            this.comboBox_vendedor.Size = new System.Drawing.Size(398, 26);
+            this.comboBox_vendedor.Size = new System.Drawing.Size(398, 23);
             this.comboBox_vendedor.TabIndex = 0;
             // 
             // tableLayoutPanel2
@@ -314,6 +314,25 @@
             this.numericUpDown_valor.ThousandsSeparator = true;
             this.numericUpDown_valor.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.NumericUpDown_valor_KeyPress);
             // 
+            // rjToggleButton_ativo
+            // 
+            this.rjToggleButton_ativo.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.rjToggleButton_ativo.BackColor = System.Drawing.Color.White;
+            this.rjToggleButton_ativo.Checked = true;
+            this.rjToggleButton_ativo.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.rjToggleButton_ativo.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.rjToggleButton_ativo.Location = new System.Drawing.Point(122, 212);
+            this.rjToggleButton_ativo.Margin = new System.Windows.Forms.Padding(5);
+            this.rjToggleButton_ativo.MinimumSize = new System.Drawing.Size(45, 22);
+            this.rjToggleButton_ativo.Name = "rjToggleButton_ativo";
+            this.rjToggleButton_ativo.OffBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(164)))), ((int)(((byte)(164)))));
+            this.rjToggleButton_ativo.OffToggleColor = System.Drawing.Color.White;
+            this.rjToggleButton_ativo.OnBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(197)))), ((int)(((byte)(36)))));
+            this.rjToggleButton_ativo.OnToggleColor = System.Drawing.Color.White;
+            this.rjToggleButton_ativo.Size = new System.Drawing.Size(45, 29);
+            this.rjToggleButton_ativo.TabIndex = 22;
+            this.rjToggleButton_ativo.UseVisualStyleBackColor = false;
+            // 
             // panel_campos
             // 
             this.panel_campos.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
@@ -344,29 +363,10 @@
             this.button_excluir.UseVisualStyleBackColor = false;
             this.button_excluir.Click += new System.EventHandler(this.Button_excluir_Click);
             // 
-            // rjToggleButton_ativo
-            // 
-            this.rjToggleButton_ativo.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.rjToggleButton_ativo.BackColor = System.Drawing.Color.White;
-            this.rjToggleButton_ativo.Checked = true;
-            this.rjToggleButton_ativo.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.rjToggleButton_ativo.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.rjToggleButton_ativo.Location = new System.Drawing.Point(122, 212);
-            this.rjToggleButton_ativo.Margin = new System.Windows.Forms.Padding(5);
-            this.rjToggleButton_ativo.MinimumSize = new System.Drawing.Size(45, 22);
-            this.rjToggleButton_ativo.Name = "rjToggleButton_ativo";
-            this.rjToggleButton_ativo.OffBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(164)))), ((int)(((byte)(164)))));
-            this.rjToggleButton_ativo.OffToggleColor = System.Drawing.Color.White;
-            this.rjToggleButton_ativo.OnBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(197)))), ((int)(((byte)(36)))));
-            this.rjToggleButton_ativo.OnToggleColor = System.Drawing.Color.White;
-            this.rjToggleButton_ativo.Size = new System.Drawing.Size(45, 29);
-            this.rjToggleButton_ativo.TabIndex = 22;
-            this.rjToggleButton_ativo.UseVisualStyleBackColor = false;
-            // 
             // FormMeta
             // 
             this.AcceptButton = this.button_salvar;
-            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 18F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.Color.White;
             this.CancelButton = this.button_voltar;

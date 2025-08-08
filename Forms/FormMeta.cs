@@ -9,24 +9,21 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using DesafioArbrain.Enums;
 using DesafioArbrain.Models;
+using DesafioArbrain.Service;
 
 namespace DesafioArbrain.Forms
 {
     public partial class FormMeta : Form
     {
-        private readonly List<VendedorModel> _vendedores;
+        private readonly ProdutoService _produtoService = new ProdutoService();
 
-        private readonly List<ProdutoModel> _produtos;
+        private readonly VendedorService _vendedorService = new VendedorService();
 
         public MetaModel novaMeta;
 
 
-        public FormMeta(List<VendedorModel> vendedores, List<ProdutoModel> produtos, MetaModel metaEmEdicao = null)
+        public FormMeta(MetaModel metaEmEdicao = null)
         {
-            // Inicializa a lista de vendedores e produtos
-            this._vendedores = vendedores;
-            this._produtos = produtos;
-
             // Se uma meta foi passada para edição, atualiza a novaMeta com uma cópia dela
             if (metaEmEdicao != null) { novaMeta = new MetaModel(metaEmEdicao); }
 
@@ -42,9 +39,9 @@ namespace DesafioArbrain.Forms
                 .Cast<TipoMeta>()
                 .Select(t => t.ToDescricao())
                 .ToList();
-            comboBox_vendedor.DataSource = _vendedores;
+            comboBox_vendedor.DataSource = _vendedorService.GetAll();
             comboBox_vendedor.DisplayMember = "Nome";
-            comboBox_produto.DataSource = _produtos;
+            comboBox_produto.DataSource = _produtoService.GetAll();
             comboBox_produto.DisplayMember = "Nome";
             comboBox_periodo.DataSource = Enum.GetValues(typeof(Periodicidade));
 
@@ -95,7 +92,6 @@ namespace DesafioArbrain.Forms
 
             if (novaMeta != null) // Atualizar a meta existente
             {
-
                 novaMeta.Tipo = novoTipoMeta;
                 novaMeta.Vendedor = novoVendedor;
                 novaMeta.Produto = novoProduto;

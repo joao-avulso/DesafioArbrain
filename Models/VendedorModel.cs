@@ -8,12 +8,12 @@ namespace DesafioArbrain.Models
 {
     public class VendedorModel
     {
-        public Guid Id { get; private set; }
+        public int Id { get; set; }
         public string Nome { get; set; }
 
-        public VendedorModel(string nome)
+        public VendedorModel(int id, string nome)
         {
-            Id = Guid.NewGuid();
+            Id = id;
             Nome = nome;
         }
     }

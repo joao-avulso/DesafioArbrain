@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using DesafioArbrain.Enums;
 using DesafioArbrain.Models;
@@ -17,22 +14,6 @@ namespace DesafioArbrain.Forms
 {
     public partial class CadastroMetas : Form
     {
-        // Listas de vendedores e produtos para realizar os cadastros de metas.
-        // Essas listas estão sendo usadas para simular dados, em um cenário real, esses dados viriam de um banco de dados ou API.
-        private static readonly List<VendedorModel> _vendedores = new List<VendedorModel>
-        {
-            new VendedorModel("Bar do Zeca"),
-            new VendedorModel("Chopp & Companhia LTDA"),
-            new VendedorModel("Boa Gelada"),
-        };
-
-        private static readonly List<ProdutoModel> _produtos = new List<ProdutoModel>
-        {
-            new ProdutoModel("Barril", CategoriaProduto.Barril),
-            new ProdutoModel("Garrafa/Lata", CategoriaProduto.GarrafaLata),
-            new ProdutoModel("Abridor de Garrafa", CategoriaProduto.Acessorio)
-        };
-
         private static readonly MetaService _metaService = new MetaService();
 
         private static readonly DesfazerManager _desfazerManager = new DesfazerManager();
@@ -42,23 +23,35 @@ namespace DesafioArbrain.Forms
         private static readonly Image imgAtivo = Properties.Resources.Ativo;
 
         private static readonly Image imgInativo = Properties.Resources.Inativo;
+        
+        private readonly SortableBindingList<MetaModel> _metas = _metaService.GetAll();
+
+        private readonly BindingSource _bindingSource = new BindingSource();
 
         public CadastroMetas()
         {
             InitializeComponent();
 
-            // Gerar metas aleatórias para simulação
-            for (int i = 0; i < 10; i++)
+            //Gerar metas aleatórias para simulação
+            if (_metas.Count == 0)
             {
-                TipoMeta tipo = (TipoMeta)(i % 3);
-                VendedorModel vendedor = _vendedores[i % _vendedores.Count];
-                ProdutoModel produto = _produtos[i % _produtos.Count];
-                decimal valor = (i + 1) * 100;
-                Periodicidade periodicidade = (Periodicidade)(i % 3);
-                bool ativo = i % 2 == 0;
-                MetaModel meta = new MetaModel(tipo, vendedor, produto, valor, periodicidade, ativo);
+                List<VendedorModel> vendedores = new VendedorService().GetAll();
+                List<ProdutoModel> produtos = new ProdutoService().GetAll();
 
-                _metaService.AddMeta(meta);
+                for (int i = 0; i < 100; i++)
+                {
+                    TipoMeta tipo = (TipoMeta)(i % 3);
+                    VendedorModel vendedor = vendedores[i % vendedores.Count];
+                    ProdutoModel produto = produtos[i % produtos.Count];
+                    decimal valor = (i + 1) * 100;
+                    Periodicidade periodicidade = (Periodicidade)(i % 3);
+                    bool ativo = i % 2 == 0;
+                    MetaModel meta = new MetaModel(tipo, vendedor, produto, valor, periodicidade, ativo);
+
+                    _metaService.AddMeta(meta);
+                }
+
+                Update_Metas();
             }
         }
 
@@ -66,7 +59,8 @@ namespace DesafioArbrain.Forms
         // Função que é chamada quando o formulário é carregado
         private void CadastroMetas_Load(object sender, EventArgs e)
         {
-            dataGridView.DataSource = _metaService.Metas;
+            _bindingSource.DataSource = _metas;
+            dataGridView.DataSource = _bindingSource;
 
             // Configuração das colunas do DataGridView
             dataGridView.Columns["Id"].FillWeight = 30;
@@ -99,7 +93,6 @@ namespace DesafioArbrain.Forms
             _desfazerManager.AcaoRegistrada += (s, a) => { funcaoAcaoDesfazer(); };
             _desfazerManager.AcaoDesfeita += (s, a) => { funcaoAcaoDesfazer(); };
 
-            //Check_Filtro_Inativos();
             Filtrar_Metas(String.Empty, rjToggleButton_ativo.Checked);
         }
 
@@ -107,9 +100,21 @@ namespace DesafioArbrain.Forms
         // Atualiza o label que exibe a quantidade de registros visíveis
         private void Update_ContRegistros()
         {
-            int totalRegistros = _metaService.Metas.Count;
+            int totalRegistros = _metas.Count;
             int registrosVisiveis = dataGridView.Rows.Count;
             label_countReg.Text = $"{registrosVisiveis} de {totalRegistros} registros.";
+        }
+
+
+        private void Update_Metas()
+        {
+            var novasMetas = _metaService.GetAll();
+            _metas.Clear();
+            foreach (var meta in novasMetas)
+                _metas.Add(meta);
+
+            Filtrar_Metas(textBox_filtro.Text, rjToggleButton_ativo.Checked);
+            Update_ContRegistros();
         }
 
 
@@ -121,12 +126,12 @@ namespace DesafioArbrain.Forms
             // Se o filtro estiver vazio, exibe todas as metas
             if (filtro == _placeholderTextFiltro || string.IsNullOrWhiteSpace(filtro))
             {
-                metas = _metaService.Metas.ToList();
+                metas = _metas.ToList();
             }
             else // Caso contrário, filtra as metas com base no filtro fornecido
             {
                 filtro = filtro.ToLower().Trim();
-                metas = _metaService.Metas
+                metas = _metas
                 .Where(m => m.Vendedor.Nome.ToLower().Contains(filtro) ||
                             m.Produto.Nome.ToLower().Contains(filtro) ||
                             m.Tipo.ToDescricao().ToLower().Contains(filtro) ||
@@ -137,19 +142,23 @@ namespace DesafioArbrain.Forms
             // Se o toggle de ativo estiver marcado, filtra apenas as metas ativas
             if (filtrarAtivos) { metas = metas.Where(m => m.Ativo).ToList(); }
 
-            dataGridView.DataSource = new SortableBindingList<MetaModel>(metas);
+            _bindingSource.DataSource = new SortableBindingList<MetaModel>(metas);
         }
 
 
         private void Button_adicionar_Click(object sender, EventArgs e)
         {
-            FormMeta formMeta = new FormMeta(_vendedores, _produtos);
+            FormMeta formMeta = new FormMeta();
             if (formMeta.ShowDialog() == DialogResult.OK)
             {
-                _metaService.AddMeta(formMeta.novaMeta);
-                AcaoDesfazer acaoAdicionar = new AcaoDesfazer("Adicionar Meta", () => { _metaService.DeleteMeta(formMeta.novaMeta); });
-                _desfazerManager.RegistrarAcao(acaoAdicionar);
-                Filtrar_Metas(textBox_filtro.Text, rjToggleButton_ativo.Checked);
+                int novoId = _metaService.AddMeta(formMeta.novaMeta);
+                if (novoId > 0)
+                {
+                    formMeta.novaMeta.Id = novoId;
+                    AcaoDesfazer acaoAdicionar = new AcaoDesfazer("Adicionar Meta", () => { _metaService.DeleteMeta(formMeta.novaMeta);  Update_Metas(); });
+                    _desfazerManager.RegistrarAcao(acaoAdicionar);
+                    Update_Metas();
+                }
             }
         }
 
@@ -173,11 +182,12 @@ namespace DesafioArbrain.Forms
                         if (row.DataBoundItem is MetaModel meta)
                         {
                             _metaService.DeleteMeta(meta);
-                            AcaoDesfazer acaoExcluir = new AcaoDesfazer("Excluir Meta", () => { _metaService.AddMeta(meta); });
+                            AcaoDesfazer acaoExcluir = new AcaoDesfazer("Excluir Meta", () => { _metaService.AddMeta(meta); Update_Metas(); });
                             _desfazerManager.RegistrarAcao(acaoExcluir);
                             dataGridView.Rows.Remove(row);
                         }
                     }
+                    Update_Metas();
                 }
             }
             else
@@ -196,24 +206,23 @@ namespace DesafioArbrain.Forms
                 {
                     MetaModel metaAnterior = new MetaModel(meta); // Cria uma cópia da meta original para registro da ação de desfazer
 
-                    FormMeta formMeta = new FormMeta(_vendedores, _produtos, meta);
+                    FormMeta formMeta = new FormMeta(meta);
 
                     DialogResult resultEdicao = formMeta.ShowDialog();
 
                     if (resultEdicao == DialogResult.OK) // Caso o usuário tenha salvado a edição
                     {
                         _metaService.UpdateMeta(formMeta.novaMeta);
-                        AcaoDesfazer acaoEditar = new AcaoDesfazer("Editar Meta", () => { _metaService.UpdateMeta(metaAnterior); });
+                        AcaoDesfazer acaoEditar = new AcaoDesfazer("Editar Meta", () => { _metaService.UpdateMeta(metaAnterior); Update_Metas(); });
                         _desfazerManager.RegistrarAcao(acaoEditar);
-                        Filtrar_Metas(textBox_filtro.Text, rjToggleButton_ativo.Checked);
                     }
                     else if (resultEdicao == DialogResult.Abort) // Caso o usuário tenha excluído a meta
                     {
                         _metaService.DeleteMeta(meta);
-                        AcaoDesfazer acaoExcluir = new AcaoDesfazer("Excluir Meta", () => { _metaService.AddMeta(metaAnterior); });
+                        AcaoDesfazer acaoExcluir = new AcaoDesfazer("Excluir Meta", () => { _metaService.AddMeta(metaAnterior); Update_Metas(); });
                         _desfazerManager.RegistrarAcao(acaoExcluir);
-                        dataGridView.Rows.Remove(linhaSelecionada);
                     }
+                    Update_Metas();
                 }
             }
             else
@@ -242,12 +251,16 @@ namespace DesafioArbrain.Forms
                         if (linhaSelecionada.DataBoundItem is MetaModel meta)
                         {
                             MetaModel novaMeta = new MetaModel(meta.Tipo, meta.Vendedor, meta.Produto, meta.Valor, meta.Periodicidade, meta.Ativo);
-                            _metaService.AddMeta(novaMeta);
-                            AcaoDesfazer acaoDuplicar = new AcaoDesfazer("Duplicar Meta", () => { _metaService.DeleteMeta(novaMeta); });
-                            _desfazerManager.RegistrarAcao(acaoDuplicar);
-                            Filtrar_Metas(textBox_filtro.Text, rjToggleButton_ativo.Checked);
+                            int novoId = _metaService.AddMeta(novaMeta);
+                            if (novoId > 0)
+                            {
+                                novaMeta.Id = novoId;
+                                AcaoDesfazer acaoDuplicar = new AcaoDesfazer("Duplicar Meta", () => { _metaService.DeleteMeta(novaMeta); Update_Metas(); });
+                                _desfazerManager.RegistrarAcao(acaoDuplicar);
+                            }
                         }
                     }
+                    Update_Metas();
                 }
             }
             else

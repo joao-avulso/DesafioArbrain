@@ -9,13 +9,13 @@ namespace DesafioArbrain.Models
 {
     public class ProdutoModel
     {
-        public Guid Id { get; private set; }
+        public int Id { get; set; }
         public string Nome { get; set; }
         public CategoriaProduto Categoria { get; set; }
 
-        public ProdutoModel(string nome, CategoriaProduto categoria)
+        public ProdutoModel(int id, string nome, CategoriaProduto categoria)
         {
-            Id = Guid.NewGuid();
+            Id = id;
             Nome = nome;
             Categoria = categoria;
         }

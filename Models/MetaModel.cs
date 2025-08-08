@@ -9,8 +9,8 @@ namespace DesafioArbrain.Models
 {
     public class MetaModel
     {
-        private static int _proxId = 1;
-        public int Id { get; private set; }
+        private int _proxId = 1;
+        public int Id { get; set; }
         public TipoMeta Tipo { get; set; }
         public VendedorModel Vendedor { get; set; }
         public string VendedorNome => Vendedor?.Nome ?? ""; // Elemento adicionado para possibilitar exibição e ordenação no DataGridView
@@ -19,6 +19,18 @@ namespace DesafioArbrain.Models
         public decimal Valor { get; set; }
         public Periodicidade Periodicidade { get; set; }
         public bool Ativo { get; set; } = true;
+
+        public MetaModel(int id, TipoMeta tipo, VendedorModel vendedor, ProdutoModel produto, decimal valor, Periodicidade periodicidade, bool ativo)
+        {
+            _proxId = id;
+            Id = id;
+            Tipo = tipo;
+            Vendedor = vendedor;
+            Produto = produto;
+            Valor = valor;
+            Periodicidade = periodicidade;
+            Ativo = ativo;
+        }
 
         public MetaModel(TipoMeta tipo, VendedorModel vendedor, ProdutoModel produto, decimal valor, Periodicidade periodicidade, bool ativo)
         {
