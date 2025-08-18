@@ -34,7 +34,6 @@
             this.textBox_filtro = new System.Windows.Forms.TextBox();
             this.label_filtro = new System.Windows.Forms.Label();
             this.button_adicionar = new System.Windows.Forms.Button();
-            this.button_excluir = new System.Windows.Forms.Button();
             this.button_editar = new System.Windows.Forms.Button();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.label_countReg = new System.Windows.Forms.Label();
@@ -42,9 +41,9 @@
             this.button_duplicar = new System.Windows.Forms.Button();
             this.button_desfazer = new System.Windows.Forms.Button();
             this.button_voltar = new System.Windows.Forms.Button();
-            this.rjToggleButton_ativo = new RJCodeAdvance.RJControls.RJToggleButton();
             this.label1 = new System.Windows.Forms.Label();
             this.label_desfazer = new System.Windows.Forms.Label();
+            this.chkInativos = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.SuspendLayout();
             // 
@@ -56,7 +55,7 @@
             this.textBox_filtro.Location = new System.Drawing.Point(49, 10);
             this.textBox_filtro.Margin = new System.Windows.Forms.Padding(5);
             this.textBox_filtro.Name = "textBox_filtro";
-            this.textBox_filtro.Size = new System.Drawing.Size(231, 26);
+            this.textBox_filtro.Size = new System.Drawing.Size(231, 22);
             this.textBox_filtro.TabIndex = 5;
             this.textBox_filtro.Text = "Tipo, Vendedor, Produto, Periodo.";
             this.textBox_filtro.TextChanged += new System.EventHandler(this.TextBox_filtro_TextChanged);
@@ -71,7 +70,7 @@
             this.label_filtro.Location = new System.Drawing.Point(3, 13);
             this.label_filtro.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label_filtro.Name = "label_filtro";
-            this.label_filtro.Size = new System.Drawing.Size(54, 19);
+            this.label_filtro.Size = new System.Drawing.Size(44, 15);
             this.label_filtro.TabIndex = 2;
             this.label_filtro.Text = "Filtro";
             // 
@@ -95,25 +94,6 @@
             this.button_adicionar.Text = "Novo (F2)";
             this.button_adicionar.UseVisualStyleBackColor = false;
             this.button_adicionar.Click += new System.EventHandler(this.Button_adicionar_Click);
-            // 
-            // button_excluir
-            // 
-            this.button_excluir.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Left)));
-            this.button_excluir.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(199)))), ((int)(((byte)(0)))), ((int)(((byte)(14)))));
-            this.button_excluir.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button_excluir.Enabled = false;
-            this.button_excluir.FlatAppearance.BorderSize = 0;
-            this.button_excluir.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
-            this.button_excluir.Font = new System.Drawing.Font("Montserrat", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button_excluir.ForeColor = System.Drawing.Color.White;
-            this.button_excluir.Location = new System.Drawing.Point(5, 636);
-            this.button_excluir.Margin = new System.Windows.Forms.Padding(5);
-            this.button_excluir.Name = "button_excluir";
-            this.button_excluir.Size = new System.Drawing.Size(155, 36);
-            this.button_excluir.TabIndex = 7;
-            this.button_excluir.Text = "Excluir";
-            this.button_excluir.UseVisualStyleBackColor = false;
-            this.button_excluir.Click += new System.EventHandler(this.Button_excluir_Click);
             // 
             // button_editar
             // 
@@ -166,7 +146,6 @@
             this.dataGridView.Location = new System.Drawing.Point(5, 85);
             this.dataGridView.Margin = new System.Windows.Forms.Padding(0);
             this.dataGridView.Name = "dataGridView";
-            this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.RowHeadersWidth = 51;
             this.dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.FullRowSelect;
             this.dataGridView.Size = new System.Drawing.Size(1174, 546);
@@ -186,7 +165,7 @@
             this.label_countReg.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(164)))), ((int)(((byte)(164)))));
             this.label_countReg.Location = new System.Drawing.Point(3, 67);
             this.label_countReg.Name = "label_countReg";
-            this.label_countReg.Size = new System.Drawing.Size(148, 19);
+            this.label_countReg.Size = new System.Drawing.Size(120, 15);
             this.label_countReg.TabIndex = 6;
             this.label_countReg.Text = "0 de 0 registros.";
             // 
@@ -272,26 +251,6 @@
             this.button_voltar.UseVisualStyleBackColor = false;
             this.button_voltar.Click += new System.EventHandler(this.Button_voltar_Click);
             // 
-            // rjToggleButton_ativo
-            // 
-            this.rjToggleButton_ativo.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.rjToggleButton_ativo.BackColor = System.Drawing.Color.White;
-            this.rjToggleButton_ativo.Checked = true;
-            this.rjToggleButton_ativo.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.rjToggleButton_ativo.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.rjToggleButton_ativo.Location = new System.Drawing.Point(1134, 51);
-            this.rjToggleButton_ativo.Margin = new System.Windows.Forms.Padding(5);
-            this.rjToggleButton_ativo.MinimumSize = new System.Drawing.Size(45, 22);
-            this.rjToggleButton_ativo.Name = "rjToggleButton_ativo";
-            this.rjToggleButton_ativo.OffBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(164)))), ((int)(((byte)(164)))));
-            this.rjToggleButton_ativo.OffToggleColor = System.Drawing.Color.White;
-            this.rjToggleButton_ativo.OnBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(197)))), ((int)(((byte)(36)))));
-            this.rjToggleButton_ativo.OnToggleColor = System.Drawing.Color.White;
-            this.rjToggleButton_ativo.Size = new System.Drawing.Size(45, 29);
-            this.rjToggleButton_ativo.TabIndex = 23;
-            this.rjToggleButton_ativo.UseVisualStyleBackColor = false;
-            this.rjToggleButton_ativo.CheckedChanged += new System.EventHandler(this.RjToggleButton_ativo_CheckedChanged);
-            // 
             // label1
             // 
             this.label1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
@@ -300,9 +259,9 @@
             this.label1.Cursor = System.Windows.Forms.Cursors.Default;
             this.label1.Font = new System.Drawing.Font("Montserrat", 8.999999F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.label1.ForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(164)))), ((int)(((byte)(164)))), ((int)(((byte)(164)))));
-            this.label1.Location = new System.Drawing.Point(992, 55);
+            this.label1.Location = new System.Drawing.Point(1021, 57);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(134, 19);
+            this.label1.Size = new System.Drawing.Size(109, 15);
             this.label1.TabIndex = 24;
             this.label1.Text = "Filtrar Inativos";
             // 
@@ -322,22 +281,43 @@
             this.label_desfazer.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
             this.label_desfazer.Visible = false;
             // 
+            // chkInativos
+            // 
+            this.chkInativos.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkInativos.BackgroundImageLayout = System.Windows.Forms.ImageLayout.None;
+            this.chkInativos.Checked = true;
+            this.chkInativos.CheckState = System.Windows.Forms.CheckState.Checked;
+            this.chkInativos.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.chkInativos.FlatAppearance.BorderSize = 0;
+            this.chkInativos.FlatAppearance.CheckedBackColor = System.Drawing.Color.Transparent;
+            this.chkInativos.FlatAppearance.MouseDownBackColor = System.Drawing.Color.Transparent;
+            this.chkInativos.FlatAppearance.MouseOverBackColor = System.Drawing.Color.Transparent;
+            this.chkInativos.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
+            this.chkInativos.ForeColor = System.Drawing.Color.Transparent;
+            this.chkInativos.Image = global::DesafioArbrain.Properties.Resources.Switch_True;
+            this.chkInativos.Location = new System.Drawing.Point(1133, 46);
+            this.chkInativos.Name = "chkInativos";
+            this.chkInativos.Size = new System.Drawing.Size(46, 37);
+            this.chkInativos.TabIndex = 26;
+            this.chkInativos.UseVisualStyleBackColor = false;
+            this.chkInativos.CheckedChanged += new System.EventHandler(this.chkInativos_CheckedChanged);
+            this.chkInativos.Click += new System.EventHandler(this.chkInativos_Click);
+            // 
             // CadastroMetas
             // 
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.None;
             this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(51)))), ((int)(((byte)(67)))), ((int)(((byte)(85)))));
             this.CancelButton = this.button_voltar;
             this.ClientSize = new System.Drawing.Size(1184, 681);
+            this.Controls.Add(this.chkInativos);
             this.Controls.Add(this.label_desfazer);
             this.Controls.Add(this.label1);
-            this.Controls.Add(this.rjToggleButton_ativo);
             this.Controls.Add(this.button_voltar);
             this.Controls.Add(this.button_desfazer);
             this.Controls.Add(this.button_duplicar);
             this.Controls.Add(this.button_limparFiltro);
             this.Controls.Add(this.label_countReg);
             this.Controls.Add(this.button_editar);
-            this.Controls.Add(this.button_excluir);
             this.Controls.Add(this.button_adicionar);
             this.Controls.Add(this.label_filtro);
             this.Controls.Add(this.textBox_filtro);
@@ -363,7 +343,6 @@
         private System.Windows.Forms.TextBox textBox_filtro;
         private System.Windows.Forms.Label label_filtro;
         private System.Windows.Forms.Button button_adicionar;
-        private System.Windows.Forms.Button button_excluir;
         private System.Windows.Forms.Button button_editar;
         private System.Windows.Forms.DataGridView dataGridView;
         private System.Windows.Forms.Label label_countReg;
@@ -371,9 +350,9 @@
         private System.Windows.Forms.Button button_duplicar;
         private System.Windows.Forms.Button button_desfazer;
         private System.Windows.Forms.Button button_voltar;
-        private RJCodeAdvance.RJControls.RJToggleButton rjToggleButton_ativo;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label_desfazer;
+        private System.Windows.Forms.CheckBox chkInativos;
     }
 }
 

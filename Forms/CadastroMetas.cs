@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using DesafioArbrain.Enums;
 using DesafioArbrain.Models;
@@ -20,13 +21,9 @@ namespace DesafioArbrain.Forms
 
         private static readonly string _placeholderTextFiltro = "Tipo, Vendedor, Produto, Periodo.";
 
-        private static readonly Image imgAtivo = Properties.Resources.Ativo;
-
-        private static readonly Image imgInativo = Properties.Resources.Inativo;
-        
-        private readonly SortableBindingList<MetaModel> _metas = _metaService.GetAll();
-
         private readonly BindingSource _bindingSource = new BindingSource();
+
+        private SortableBindingList<MetaModel> _metas = _metaService.GetAll();
 
         public CadastroMetas()
         {
@@ -63,7 +60,7 @@ namespace DesafioArbrain.Forms
             dataGridView.DataSource = _bindingSource;
 
             // Configuração das colunas do DataGridView
-            dataGridView.Columns["Id"].FillWeight = 30;
+            dataGridView.Columns["Id"].Visible = false;
             dataGridView.Columns["Tipo"].FillWeight = 30;
             dataGridView.Columns["Produto"].Visible = false;
             dataGridView.Columns["Vendedor"].Visible = false;
@@ -93,7 +90,7 @@ namespace DesafioArbrain.Forms
             _desfazerManager.AcaoRegistrada += (s, a) => { funcaoAcaoDesfazer(); };
             _desfazerManager.AcaoDesfeita += (s, a) => { funcaoAcaoDesfazer(); };
 
-            Filtrar_Metas(String.Empty, rjToggleButton_ativo.Checked);
+            Filtrar_Metas(String.Empty, chkInativos.Checked);
         }
 
 
@@ -108,13 +105,12 @@ namespace DesafioArbrain.Forms
 
         private void Update_Metas()
         {
-            var novasMetas = _metaService.GetAll();
-            _metas.Clear();
-            foreach (var meta in novasMetas)
-                _metas.Add(meta);
-
-            Filtrar_Metas(textBox_filtro.Text, rjToggleButton_ativo.Checked);
-            Update_ContRegistros();
+            Task.Factory.StartNew(() =>
+            {
+                _metas = _metaService.GetAll();
+                Filtrar_Metas(textBox_filtro.Text, chkInativos.Checked);
+                Update_ContRegistros();
+            });
         }
 
 
@@ -280,7 +276,7 @@ namespace DesafioArbrain.Forms
         {
             textBox_filtro.Text = _placeholderTextFiltro;
             textBox_filtro.ForeColor = Color.Gray;
-            Filtrar_Metas(String.Empty, rjToggleButton_ativo.Checked);
+            Filtrar_Metas(String.Empty, chkInativos.Checked);
         }
 
 
@@ -289,7 +285,7 @@ namespace DesafioArbrain.Forms
             if (_desfazerManager.PodeDesfazer())
             {
                 _desfazerManager.DesfazerUltimaAcao();
-                Filtrar_Metas(textBox_filtro.Text, rjToggleButton_ativo.Checked);
+                Filtrar_Metas(textBox_filtro.Text, chkInativos.Checked);
             }
             else
             {
@@ -302,7 +298,7 @@ namespace DesafioArbrain.Forms
         {
             string filtro = textBox_filtro.Text.Trim().ToLower();
 
-            Filtrar_Metas(filtro, rjToggleButton_ativo.Checked);
+            Filtrar_Metas(filtro, chkInativos.Checked);
         }
 
 
@@ -324,7 +320,7 @@ namespace DesafioArbrain.Forms
             {
                 textBox_filtro.Text = _placeholderTextFiltro;
                 textBox_filtro.ForeColor = Color.Gray;
-                Filtrar_Metas(String.Empty, rjToggleButton_ativo.Checked);
+                Filtrar_Metas(String.Empty, chkInativos.Checked);
             }
         }
 
@@ -335,13 +331,11 @@ namespace DesafioArbrain.Forms
             if (dataGridView.SelectedRows.Count > 0)
             {
                 button_editar.Enabled = true;
-                button_excluir.Enabled = true;
                 button_duplicar.Enabled = true;
             }
             else
             {
                 button_editar.Enabled = false;
-                button_excluir.Enabled = false;
                 button_duplicar.Enabled = false;
             }
         }
@@ -381,7 +375,7 @@ namespace DesafioArbrain.Forms
             {
                 if (dataGridView.Rows[e.RowIndex].DataBoundItem is MetaModel meta)
                 {
-                    e.Value = meta.Ativo ? imgAtivo : imgInativo;
+                    e.Value = meta.Ativo ? Properties.Resources.Ativo : Properties.Resources.Inativo;
                     e.FormattingApplied = true;
                 }
             }
@@ -410,17 +404,22 @@ namespace DesafioArbrain.Forms
             }
         }
 
-        private void RjToggleButton_ativo_CheckedChanged(object sender, EventArgs e)
+        private void chkInativos_CheckedChanged(object sender, EventArgs e)
         {
             // Se o filtro estiver vazio, apenas filtra por ativo/inativo
             if (textBox_filtro.Text == _placeholderTextFiltro || string.IsNullOrWhiteSpace(textBox_filtro.Text))
             {
-                Filtrar_Metas(String.Empty, rjToggleButton_ativo.Checked);
+                Filtrar_Metas(String.Empty, chkInativos.Checked);
             }
             else // Se houver um filtro aplicado, mantém o filtro e aplica a condição de ativo/inativo
             {
-                Filtrar_Metas(textBox_filtro.Text, rjToggleButton_ativo.Checked);
+                Filtrar_Metas(textBox_filtro.Text, chkInativos.Checked);
             }
+        }
+
+        private void chkInativos_Click(object sender, EventArgs e)
+        {
+            chkInativos.Image = chkInativos.Checked ? Properties.Resources.Switch_True : Properties.Resources.Switch_False;
         }
     }
 }

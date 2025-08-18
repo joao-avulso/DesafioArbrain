@@ -53,7 +53,7 @@ namespace DesafioArbrain.Forms
                 comboBox_produto.SelectedItem = novaMeta.Produto;
                 numericUpDown_valor.Value = novaMeta.Valor;
                 comboBox_periodo.SelectedIndex = (int)novaMeta.Periodicidade;
-                rjToggleButton_ativo.Checked = novaMeta.Ativo;
+                chkAtivo.Checked = novaMeta.Ativo;
 
                 ComboBox_tipo_SelectedIndexChanged(null, null);
 
@@ -74,7 +74,7 @@ namespace DesafioArbrain.Forms
             ProdutoModel novoProduto = (ProdutoModel)comboBox_produto.SelectedItem;
             decimal novoValor = (decimal)numericUpDown_valor.Value;
             Periodicidade novaPeriodicidade = (Periodicidade)comboBox_periodo.SelectedIndex;
-            bool novaAtivo = rjToggleButton_ativo.Checked;
+            bool novaAtivo = chkAtivo.Checked;
 
             // Validação do tipo de meta com o tipo de produto selecionado
             if (novoTipoMeta == TipoMeta.Litros && novoProduto.Categoria == CategoriaProduto.Acessorio)
@@ -191,6 +191,11 @@ namespace DesafioArbrain.Forms
                 e.Handled = true;
                 return;
             }
+        }
+
+        private void chkAtivo_Click(object sender, EventArgs e)
+        {
+            chkAtivo.Image = chkAtivo.Checked ? Properties.Resources.Switch_True : Properties.Resources.Switch_False;
         }
     }
 }
